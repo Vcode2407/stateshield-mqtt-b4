@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+docs/.build/
+slides/.build/
+slides/node_modules/
+*.zip

@@ -1,0 +1,148 @@
+{
+  "run_utc": "2026-10-18T08:30:03.856867+00:00",
+  "run_id": "51ea69f8",
+  "broker": "127.0.0.1:18883",
+  "protocol": "MQTT 5.0",
+  "queue_cap_configured": 1000,
+  "initial_broker_metrics": {
+    "clients/connected": 1,
+    "clients/disconnected": 0,
+    "clients/total": 1,
+    "store/messages/count": 55,
+    "subscriptions/count": 1
+  },
+  "initial_container_stats": {
+    "BlockIO": "0B / 0B",
+    "CPUPerc": "0.12%",
+    "Container": "statesheild-mqtt-baseline",
+    "ID": "f5017a84ddd8",
+    "MemPerc": "0.04%",
+    "MemUsage": "2.832MiB / 7.455GiB",
+    "Name": "statesheild-mqtt-baseline",
+    "NetIO": "4.58kB / 7.87kB",
+    "PIDs": "1"
+  },
+  "normal_delivery": {
+    "published": "51ea69f8-normal-delivery",
+    "received": [
+      "51ea69f8-normal-delivery"
+    ],
+    "pass": true
+  },
+  "cases": [
+    {
+      "scenario": "clean",
+      "session_expiry_seconds": 0,
+      "subscriber_count": 3,
+      "published_per_subscriber": 5,
+      "before_publish": {
+        "clients/connected": 1,
+        "clients/disconnected": 0,
+        "clients/total": 1,
+        "store/messages/count": 55,
+        "subscriptions/count": 1
+      },
+      "after_publish": {
+        "clients/connected": 1,
+        "clients/disconnected": 0,
+        "clients/total": 1,
+        "store/messages/count": 55,
+        "subscriptions/count": 1
+      },
+      "container_stats_before": {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "0.11%",
+        "Container": "statesheild-mqtt-baseline",
+        "ID": "f5017a84ddd8",
+        "MemPerc": "0.04%",
+        "MemUsage": "3.32MiB / 7.455GiB",
+        "Name": "statesheild-mqtt-baseline",
+        "NetIO": "12kB / 17.5kB",
+        "PIDs": "1"
+      },
+      "container_stats_after": {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "0.09%",
+        "Container": "statesheild-mqtt-baseline",
+        "ID": "f5017a84ddd8",
+        "MemPerc": "0.03%",
+        "MemUsage": "2.367MiB / 7.455GiB",
+        "Name": "statesheild-mqtt-baseline",
+        "NetIO": "15.7kB / 23.3kB",
+        "PIDs": "1"
+      },
+      "session_present_on_reconnect": [
+        false,
+        false,
+        false
+      ],
+      "received_per_subscriber": [
+        0,
+        0,
+        0
+      ],
+      "exact_payloads_received": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "scenario": "durable",
+      "session_expiry_seconds": 120,
+      "subscriber_count": 3,
+      "published_per_subscriber": 5,
+      "before_publish": {
+        "clients/connected": 1,
+        "clients/disconnected": 3,
+        "clients/total": 4,
+        "store/messages/count": 56,
+        "subscriptions/count": 4
+      },
+      "after_publish": {
+        "clients/connected": 1,
+        "clients/disconnected": 3,
+        "clients/total": 4,
+        "store/messages/count": 61,
+        "subscriptions/count": 4
+      },
+      "container_stats_before": {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "0.21%",
+        "Container": "statesheild-mqtt-baseline",
+        "ID": "f5017a84ddd8",
+        "MemPerc": "0.04%",
+        "MemUsage": "3.109MiB / 7.455GiB",
+        "Name": "statesheild-mqtt-baseline",
+        "NetIO": "38.6kB / 62kB",
+        "PIDs": "1"
+      },
+      "container_stats_after": {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "0.12%",
+        "Container": "statesheild-mqtt-baseline",
+        "ID": "f5017a84ddd8",
+        "MemPerc": "0.04%",
+        "MemUsage": "2.855MiB / 7.455GiB",
+        "Name": "statesheild-mqtt-baseline",
+        "NetIO": "44.5kB / 71.4kB",
+        "PIDs": "1"
+      },
+      "session_present_on_reconnect": [
+        true,
+        true,
+        true
+      ],
+      "received_per_subscriber": [
+        5,
+        5,
+        5
+      ],
+      "exact_payloads_received": [
+        true,
+        true,
+        true
+      ]
+    }
+  ]
+}
