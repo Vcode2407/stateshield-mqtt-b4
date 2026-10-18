@@ -161,11 +161,39 @@ def run_case(label, run_id, port, count, messages, expiry, monitor, container):
             "container_stats_after": resources_after,
             "session_present_on_reconnect": session_present,
             "received_per_subscriber": [len(items) for items in recovered],
+            "received_payloads_per_subscriber": recovered,
             "exact_payloads_received": [items == expected for items in recovered],
         }
     finally:
         for peer in subscribers:
             peer.close()
+
+
+def validation_errors(result):
+    errors = []
+    if not result["normal_delivery"]["pass"]:
+        errors.append("Online publish/subscribe delivery failed")
+    clean, durable = result["cases"]
+    clients = clean["subscriber_count"]
+    messages = clean["published_per_subscriber"]
+    expected_durable = min(messages, result["queue_cap_configured"])
+    if clean["session_present_on_reconnect"] != [False] * clients:
+        errors.append("Clean sessions unexpectedly survived reconnect")
+    if clean["received_per_subscriber"] != [0] * clients:
+        errors.append("Clean sessions received offline messages")
+    if durable["session_present_on_reconnect"] != [True] * clients:
+        errors.append("Durable sessions did not survive reconnect")
+    if durable["received_per_subscriber"] != [expected_durable] * clients:
+        errors.append("Durable delivery did not match the configured per-client queue cap")
+    expected_payloads = [
+        f"{result['run_id']}-durable-{index}" for index in range(messages)
+    ]
+    for index, received in enumerate(durable["received_payloads_per_subscriber"]):
+        if received != [payload for payload in expected_payloads if payload in received]:
+            errors.append(f"Subscriber {index} received unexpected, repeated, or reordered payloads")
+    if expected_durable == messages and not all(durable["exact_payloads_received"]):
+        errors.append("Uncapped durable delivery did not match the published payloads")
+    return errors
 
 
 def main():
@@ -176,6 +204,8 @@ def main():
     parser.add_argument("--output", type=Path, default=Path("evidence/pilot.json"))
     parser.add_argument("--queue-cap", type=int, default=1000)
     parser.add_argument("--docker-container", help="Local Docker container name for point-in-time stats")
+    parser.add_argument("--quiet", action="store_true", help="Save JSON without printing it")
+    parser.add_argument("--progress", action="store_true", help="Show concise stage updates")
     args = parser.parse_args()
     if not 1 <= args.clients <= 8 or not 1 <= args.messages <= 20:
         parser.error("Limit the local pilot to 1-8 clients and 1-20 messages")
@@ -198,8 +228,14 @@ def main():
         finally:
             publisher.close()
             online.close()
+        if args.progress:
+            print("  1/3 Online delivery checked", flush=True)
         clean = run_case("clean", run_id, args.port, args.clients, args.messages, 0, monitor, args.docker_container)
+        if args.progress:
+            print("  2/3 Clean-session control checked", flush=True)
         durable = run_case("durable", run_id, args.port, args.clients, args.messages, 120, monitor, args.docker_container)
+        if args.progress:
+            print("  3/3 Durable offline session checked", flush=True)
         result = {
             "run_utc": datetime.now(timezone.utc).isoformat(),
             "run_id": run_id,
@@ -212,12 +248,13 @@ def main():
             "cases": [clean, durable],
         }
         args.output.parent.mkdir(parents=True, exist_ok=True)
+        errors = validation_errors(result)
+        result["validation"] = {"pass": not errors, "errors": errors}
         args.output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
-        print(json.dumps(result, indent=2))
-        if not result["normal_delivery"]["pass"] or any(clean["received_per_subscriber"]):
-            raise SystemExit("Baseline assertion failed; inspect the JSON evidence")
-        if not all(durable["session_present_on_reconnect"]):
-            raise SystemExit("Durable sessions were not restored; inspect the JSON evidence")
+        if not args.quiet:
+            print(json.dumps(result, indent=2))
+        if errors:
+            raise SystemExit("Pilot validation failed: " + "; ".join(errors))
     finally:
         monitor.close()
 

@@ -1,0 +1,180 @@
+{
+  "run_utc": "2026-10-18T09:32:56.866410+00:00",
+  "run_id": "c5cf01b1",
+  "broker": "127.0.0.1:18883",
+  "protocol": "MQTT 5.0",
+  "queue_cap_configured": 1000,
+  "initial_broker_metrics": {
+    "clients/connected": 1,
+    "clients/disconnected": 0,
+    "clients/total": 1,
+    "store/messages/count": 55,
+    "subscriptions/count": 1
+  },
+  "initial_container_stats": {
+    "BlockIO": "0B / 0B",
+    "CPUPerc": "0.10%",
+    "Container": "stateshield-demo-baseline-bd7ebacc",
+    "ID": "6e9c51e2bed5",
+    "MemPerc": "0.04%",
+    "MemUsage": "2.844MiB / 7.455GiB",
+    "Name": "stateshield-demo-baseline-bd7ebacc",
+    "NetIO": "5.05kB / 9.17kB",
+    "PIDs": "1"
+  },
+  "normal_delivery": {
+    "published": "c5cf01b1-normal-delivery",
+    "received": [
+      "c5cf01b1-normal-delivery"
+    ],
+    "pass": true
+  },
+  "cases": [
+    {
+      "scenario": "clean",
+      "session_expiry_seconds": 0,
+      "subscriber_count": 3,
+      "published_per_subscriber": 5,
+      "before_publish": {
+        "clients/connected": 1,
+        "clients/disconnected": 0,
+        "clients/total": 1,
+        "store/messages/count": 55,
+        "subscriptions/count": 1
+      },
+      "after_publish": {
+        "clients/connected": 1,
+        "clients/disconnected": 0,
+        "clients/total": 1,
+        "store/messages/count": 55,
+        "subscriptions/count": 1
+      },
+      "container_stats_before": {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "1.42%",
+        "Container": "stateshield-demo-baseline-bd7ebacc",
+        "ID": "6e9c51e2bed5",
+        "MemPerc": "0.03%",
+        "MemUsage": "2.613MiB / 7.455GiB",
+        "Name": "stateshield-demo-baseline-bd7ebacc",
+        "NetIO": "12.3kB / 18.5kB",
+        "PIDs": "1"
+      },
+      "container_stats_after": {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "0.18%",
+        "Container": "stateshield-demo-baseline-bd7ebacc",
+        "ID": "6e9c51e2bed5",
+        "MemPerc": "0.04%",
+        "MemUsage": "2.867MiB / 7.455GiB",
+        "Name": "stateshield-demo-baseline-bd7ebacc",
+        "NetIO": "15.8kB / 24.1kB",
+        "PIDs": "1"
+      },
+      "session_present_on_reconnect": [
+        false,
+        false,
+        false
+      ],
+      "received_per_subscriber": [
+        0,
+        0,
+        0
+      ],
+      "received_payloads_per_subscriber": [
+        [],
+        [],
+        []
+      ],
+      "exact_payloads_received": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "scenario": "durable",
+      "session_expiry_seconds": 120,
+      "subscriber_count": 3,
+      "published_per_subscriber": 5,
+      "before_publish": {
+        "clients/connected": 1,
+        "clients/disconnected": 3,
+        "clients/total": 4,
+        "store/messages/count": 56,
+        "subscriptions/count": 4
+      },
+      "after_publish": {
+        "clients/connected": 1,
+        "clients/disconnected": 3,
+        "clients/total": 4,
+        "store/messages/count": 61,
+        "subscriptions/count": 4
+      },
+      "container_stats_before": {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "0.98%",
+        "Container": "stateshield-demo-baseline-bd7ebacc",
+        "ID": "6e9c51e2bed5",
+        "MemPerc": "0.04%",
+        "MemUsage": "2.863MiB / 7.455GiB",
+        "Name": "stateshield-demo-baseline-bd7ebacc",
+        "NetIO": "37.2kB / 61.8kB",
+        "PIDs": "1"
+      },
+      "container_stats_after": {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "0.08%",
+        "Container": "stateshield-demo-baseline-bd7ebacc",
+        "ID": "6e9c51e2bed5",
+        "MemPerc": "0.03%",
+        "MemUsage": "2.633MiB / 7.455GiB",
+        "Name": "stateshield-demo-baseline-bd7ebacc",
+        "NetIO": "42kB / 70.1kB",
+        "PIDs": "1"
+      },
+      "session_present_on_reconnect": [
+        true,
+        true,
+        true
+      ],
+      "received_per_subscriber": [
+        5,
+        5,
+        5
+      ],
+      "received_payloads_per_subscriber": [
+        [
+          "c5cf01b1-durable-0",
+          "c5cf01b1-durable-1",
+          "c5cf01b1-durable-2",
+          "c5cf01b1-durable-3",
+          "c5cf01b1-durable-4"
+        ],
+        [
+          "c5cf01b1-durable-0",
+          "c5cf01b1-durable-1",
+          "c5cf01b1-durable-2",
+          "c5cf01b1-durable-3",
+          "c5cf01b1-durable-4"
+        ],
+        [
+          "c5cf01b1-durable-0",
+          "c5cf01b1-durable-1",
+          "c5cf01b1-durable-2",
+          "c5cf01b1-durable-3",
+          "c5cf01b1-durable-4"
+        ]
+      ],
+      "exact_payloads_received": [
+        true,
+        true,
+        true
+      ]
+    }
+  ],
+  "validation": {
+    "pass": true,
+    "errors": []
+  }
+}
